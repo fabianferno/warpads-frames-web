@@ -24,15 +24,32 @@ export default function BuyAd() {
     logoUrl: 'https://example.com/logo.svg',
   });
   const [labels, setLabels] = useState<string[]>([]);
+  const [currentLabel, setCurrentLabel] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const { address } = useAccount();
 
+  const handleAddLabel = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && currentLabel.trim()) {
+      setLabels([...labels, currentLabel.trim()]);
+      setCurrentLabel('');
+    }
+  };
+
   const handleBuyAd = async () => {
     setIsLoading(true);
     setError(null);
+
+
+    console.log(labels);
+    console.log(formData);
+    
+    const ipfsHash = await uploadToIPFS();
+
+    console.log(ipfsHash);
+
     
     try {
       const walletClient = createWalletClient({
@@ -50,10 +67,13 @@ export default function BuyAd() {
         address: WARP_ADS_ADDRESS as `0x${string}`,
         abi: WARP_ADS_ABI,
         functionName: "createAd",
-        args: [JSON.stringify({ title: formData.title, description: formData.description }), labels],
+        args: [JSON.stringify({ title: formData.title, description: formData.description, ipfsHash: ipfsHash }), labels],
         value: BigInt(100000000),
         account: address as `0x${string}`,
       });
+
+      console.log(request);
+      
       const tx = await walletClient.writeContract(request);
       console.log(tx);
       setTxHash(tx);
@@ -63,7 +83,42 @@ export default function BuyAd() {
       setIsLoading(false);
     }
   };
+  async function uploadJSONToPinata(jsonData:any) {
+    const url = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
+    const headers = {
+      "Content-Type": "application/json",
+      pinata_api_key: "REDACTED_PINATA",
+      pinata_secret_api_key:
+        "REDACTED_PINATA",
+    };
+    const response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(jsonData),
+    });
 
+    if (!response.ok) {
+      throw new Error(`IPFS pinning error: ${response.statusText}`);
+    }
+
+    return response.json();
+  }
+
+  const uploadToIPFS = async() => {
+    try {
+
+      const jsonData = {
+        image: formData.logoUrl,
+      }
+   const res = await uploadJSONToPinata(jsonData);
+
+   console.log(res);  
+
+   return res.IpfsHash;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const isFormValid = formData.title && formData.logoUrl;
 
@@ -133,10 +188,37 @@ export default function BuyAd() {
                       placeholder="Enter your logo URL"
                     />
                   </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="labels" className="text-base">
+                      Labels
+                      <span className="ml-2 text-sm text-gray-500">(Press Enter to add)</span>
+                    </Label>
+                    <Input
+                      id="labels"
+                      value={currentLabel}
+                      onChange={(e) => setCurrentLabel(e.target.value)}
+                      onKeyDown={handleAddLabel}
+                      className="h-12 text-lg border-2 border-violet-200 dark:border-violet-800 focus-visible:ring-violet-500 bg-white/50 dark:bg-black/50"
+                      placeholder="Add labels for your advertisement"
+                    />
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {labels.map((label, index) => (
+                        <Badge 
+                          key={index}
+                          variant="secondary"
+                          className="px-3 py-1 text-sm bg-violet-100 dark:bg-violet-900 text-violet-700 dark:text-violet-300"
+                        >
+                          {label}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <Separator className="my-8 bg-violet-200 dark:bg-violet-800" />
+              
 
               <div className="pt-8">
                 <button
