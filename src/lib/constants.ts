@@ -1,4 +1,4 @@
-export const WARP_ADS_ADDRESS = "0x1eba83975bb26c3f13fb4aced748550a29f0bb1b";
+export const WARP_ADS_ADDRESS = "0x4157aE4Ead99eA9b6F3227cB27Cb11fD0dbF8De3";
 export const WARP_ADS_ABI = [
   {
     inputs: [{ internalType: "uint256", name: "basePrice", type: "uint256" }],
