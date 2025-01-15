@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Loader2, Sparkles, FileText, Tag, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Input } from "../components/ui/Input";
+import { Label } from "../components/ui/label";
+import { Alert, AlertDescription } from "../components/ui/alert";
+import { Card, CardContent, CardHeader } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
+import { Separator } from "../components/ui/separator";
+import { Loader2, Sparkles, FileText, Tag, ArrowRight, CheckCircle2, X } from 'lucide-react';
 import { WARP_ADS_ABI, WARP_ADS_ADDRESS } from "@/lib/constants";
 import { createPublicClient, createWalletClient, custom, http } from "viem";
 import { baseSepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import { AdMetadata } from "../app/types";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../components/ui/dialog";
 
-
-const steps = [
-  { title: 'Basic Info', icon: FileText },
-];
+const WIDTH = 600;
+const HEIGHT = 400;
+const BOTTOM_HEIGHT = 100;
+const ADD_SIZE = 64;
+const FONT_SIZE = 16;
 
 export default function BuyAd() {
   const [formData, setFormData] = useState<AdMetadata>({
@@ -29,6 +36,7 @@ export default function BuyAd() {
   const [error, setError] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [showPreview, setShowPreview] = useState(false);
   const { address } = useAccount();
 
   const handleAddLabel = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -42,14 +50,12 @@ export default function BuyAd() {
     setIsLoading(true);
     setError(null);
 
-
     console.log(labels);
     console.log(formData);
     
     const ipfsHash = await uploadToIPFS();
 
     console.log(ipfsHash);
-
     
     try {
       const walletClient = createWalletClient({
@@ -77,12 +83,14 @@ export default function BuyAd() {
       const tx = await walletClient.writeContract(request);
       console.log(tx);
       setTxHash(tx);
+      setShowPreview(false);
     } catch (err) {
       setError('Transaction failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
+
   async function uploadJSONToPinata(jsonData:any) {
     const url = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
     const headers = {
@@ -106,15 +114,14 @@ export default function BuyAd() {
 
   const uploadToIPFS = async() => {
     try {
-
       const jsonData = {
         image: formData.logoUrl,
       }
-   const res = await uploadJSONToPinata(jsonData);
+      const res = await uploadJSONToPinata(jsonData);
 
-   console.log(res);  
+      console.log(res);  
 
-   return res.IpfsHash;
+      return res.IpfsHash;
     } catch (error) {
       console.log(error);
     }
@@ -124,6 +131,66 @@ export default function BuyAd() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6">
+      <Dialog open={showPreview} onOpenChange={setShowPreview}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Preview Advertisement</DialogTitle>
+          </DialogHeader>
+          <div className="relative w-full aspect-[3/2] max-h-[400px]">
+            <img
+              src="https://picsum.photos/600/300"
+              alt="Background"
+              className="absolute top-0 left-0 w-full h-3/4 object-cover"
+            />
+            <div className="absolute bottom-0 left-0 flex items-center gap-3 bg-white w-full h-1/4 p-4">
+              <img
+                src={formData.logoUrl}
+                alt="Ad Logo"
+                className="w-12 h-12 rounded-full object-cover border border-white shadow-sm"
+                onError={(e) => {
+                  e.currentTarget.src = 'https://via.placeholder.com/64?text=Logo'
+                }}
+              />
+              <div className="flex flex-1 min-w-0 items-center gap-2">
+                <p className="text-sm leading-snug truncate">
+                  <strong>{formData.title}</strong>
+                </p>
+                {formData.description && (
+                  <p className="text-sm text-gray-600 truncate">
+                    • {formData.description}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-4 justify-end mt-4">
+            <button
+              onClick={() => setShowPreview(false)}
+              className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800"
+            >
+              Back
+            </button>
+            <button
+              onClick={handleBuyAd}
+              disabled={isLoading}
+              className="px-4 py-2 rounded-lg bg-violet-600 text-white hover:bg-violet-700 disabled:opacity-50 flex items-center gap-2"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Processing
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4" />
+                  Buy Ad
+                </>
+              )}
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Card className="relative overflow-hidden backdrop-blur-xl bg-white/80 dark:bg-black/80">
         <div className="absolute inset-0 bg-gradient-to-br from-violet-50/90 via-white/95 to-purple-50/90 dark:from-violet-950/90 dark:via-black/95 dark:to-purple-950/90" />
         
@@ -218,27 +285,17 @@ export default function BuyAd() {
               </div>
 
               <Separator className="my-8 bg-violet-200 dark:bg-violet-800" />
-              
 
               <div className="pt-8">
                 <button
-                  onClick={handleBuyAd}
-                  disabled={!isFormValid || isLoading}
+                  onClick={() => setShowPreview(true)}
+                  disabled={!isFormValid}
                   className="group relative w-full"
                 >
                   <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-purple-600 rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-200" />
                   <div className="relative w-full px-6 py-4 font-semibold text-white bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl hover:from-violet-600 hover:to-purple-700 transform transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 shadow-lg hover:shadow-violet-500/25 flex items-center justify-center gap-3">
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        Processing Transaction
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="w-5 h-5" />
-                        Purchase Advertisement
-                      </>
-                    )}
+                    <Sparkles className="w-5 h-5" />
+                    Preview Advertisement
                   </div>
                 </button>
               </div>
