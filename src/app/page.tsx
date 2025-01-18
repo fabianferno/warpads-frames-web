@@ -13,6 +13,12 @@ import { Tab } from "./types";
 import { TABS } from "./constants";
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Star, Shield, Zap, ChevronRight, Activity, TrendingUp } from 'lucide-react';
+import Hero from "@/components/hero";
+import Features from "@/components/features";
+import HowItWorks from "@/components/how-it-works";
+import CTA from "@/components/cta";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
 
 const MetricsDisplay = () => (
   <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
@@ -46,7 +52,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  const { signOut } = useSignIn(username);
+  // const { signOut } = useSignIn(username);
 
   const renderTabContent = () => {
     if (!fid || typeof fid !== 'number') return null;
@@ -58,14 +64,14 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="relative"
+          className="relative w-full"
         >
           {(() => {
             switch (currentTab) {
               case "generate":
                 return <WarpAdsForm fid={fid} />;
               case "buy":
-                return <BuyAd fid={fid} />;
+                return <BuyAd />;
               case "claim-author":
               case "claim-influencer":
                 return (
@@ -116,86 +122,19 @@ export default function Home() {
   if (!account?.address) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
-        <div className="fixed top-6 right-6">
+        {/* <div className="fixed top-6 right-6">
           <ModeToggle />
-        </div>
-        
-        <div className="container max-w-7xl mx-auto min-h-screen flex flex-col items-center justify-center p-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="relative w-full max-w-4xl"
-          >
-            {/* Background Elements */}
-            <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-indigo-500/5 rounded-3xl" />
-            <div className="absolute inset-0">
-              <div className="absolute inset-0 backdrop-blur-3xl opacity-50" />
-              <div className="h-full w-full bg-[linear-gradient(to_right,transparent_0%,#ffffff20_15%,#ffffff20_85%,transparent_100%)] animate-wave" />
-            </div>
-            
-            {/* Content */}
-            <div className="relative">
-              <div className="pt-20 pb-16 px-6 md:px-12">
-                {/* Logo Section */}
-                <motion.div 
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="flex justify-center mb-12"
-                >
-                  <div className="relative group">
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000" />
-                    <Image
-                      src="/logo/logo.png"
-                      alt="WarpAds Logo"
-                      width={120}
-                      height={120}
-                      className="relative rounded-full"
-                      priority
-                    />
-                  </div>
-                </motion.div>
+        </div> */} <Header walletConnected={false} setWalletConnected={() => {}} farcasterConnected={false} setFarcasterConnected={() => {}} />
 
-                {/* Title & Description */}
-                <div className="text-center mb-12">
-                  <motion.h1 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-6xl md:text-7xl font-black mb-6 bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-indigo-600"
-                  >
-                    warp<span>ads</span>
-                  </motion.h1>
-                  <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto"
-                  >
-                    The Next Generation of Decentralized Advertising
-                  </motion.p>
-                </div>
-
-                {/* Stats Display */}
-                <MetricsDisplay />
-
-                {/* Connect Button */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="flex justify-center mt-20"
-                >
-                  <div className="relative group">
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200" />
-                    <div className="relative">
-                      <ConnectButton />
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+        <main>
+         
+          <Hero />
+          <Features />
+          <HowItWorks />
+          <CTA />
+          <Footer />
+        </main>
+     
       </div>
     );
   }
@@ -254,27 +193,9 @@ export default function Home() {
         animate={{ y: 0 }}
         className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-zinc-900/80 border-b border-zinc-200 dark:border-zinc-800"
       >
-        <div className="container max-w-7xl mx-auto">
-          <div className="flex items-center justify-between p-4">
-            <div className="flex items-center gap-8">
-              <Image
-                src="/logo/logo.png"
-                alt="WarpAds Logo"
-                width={40}
-                height={40}
-                className="rounded-xl"
-              />
-              <div className="flex items-center gap-4">
-                <ConnectButton />
-               {username}
-              </div>
-              <div className="flex items-center gap-4">
-               <button onClick={() => signOut()}>signout</button>
-              </div>
-            </div>
-            <ModeToggle />
-          </div>
-        </div>
+
+
+     <Header walletConnected={false} setWalletConnected={() => {}} farcasterConnected={false} setFarcasterConnected={() => {}} />
       </motion.div>
 
       {/* Main Content */}
@@ -330,7 +251,7 @@ export default function Home() {
                 }
               `}
             >
-              <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
+              <div className="absolute inset-0  bg-[size:20px_20px]" />
               <div className="relative z-10">
                 <div className="text-xl font-bold mb-3">{tab.label}</div>
                 <div className={`text-sm mb-6 ${
@@ -354,15 +275,9 @@ export default function Home() {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="relative overflow-hidden bg-white dark:bg-zinc-900 rounded-2xl shadow-xl"
+          className="relative"
         >
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-indigo-500/5" />
-            <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
-          </div>
-          <div className="relative z-10 p-8">
-            {renderTabContent()}
-          </div>
+          {renderTabContent()}
         </motion.div>
       </div>
     </div>
