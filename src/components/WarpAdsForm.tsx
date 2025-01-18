@@ -5,10 +5,12 @@ import { motion } from "framer-motion";
 import { Input } from "./ui/Input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardHeader } from "./ui/card";
-import { Sparkles, Link as LinkIcon } from 'lucide-react';
+import { Sparkles, Link as LinkIcon, Copy } from 'lucide-react';
+import { useToast } from "./ui/use-toast";
 
 const WarpAdsForm = ({ fid }: { fid: number }) => {
-  const [url, setUrl] = useState("https://mint.farcaster.xyz/");
+  const { toast } = useToast();
+  const [url, setUrl] = useState("");
   const [warpAdsUrl, setWarpAdsUrl] = useState<string | null>(null);
   const {
     isAuthenticated,
@@ -19,8 +21,8 @@ const WarpAdsForm = ({ fid }: { fid: number }) => {
   useEffect(() => {
     if (!account?.address) return;
     if (!url) return;
-    const encodedUrl = btoa(JSON.stringify({ url, address: account?.address }));
-    setWarpAdsUrl(`https://warpads.xyz/${encodedUrl}`);
+    // const encodedUrl = btoa(JSON.stringify({ url, address: account?.address }));
+    setWarpAdsUrl(`https://warpads-backend.vercel.app?url=${url}`);
   }, [url]);
 
   return (
@@ -66,7 +68,6 @@ const WarpAdsForm = ({ fid }: { fid: number }) => {
                   </div>
                 </div>
               </div>
-
               {warpAdsUrl && username && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -79,10 +80,23 @@ const WarpAdsForm = ({ fid }: { fid: number }) => {
                   <p className="text-zinc-600 dark:text-zinc-400 mb-3">
                     This is your WarpAds URL for the frame:
                   </p>
-                  <div className="p-4 rounded-lg bg-white/50 dark:bg-black/50 border border-violet-500/20">
-                    <p className="text-violet-600 dark:text-violet-400 break-all font-mono text-sm">
+                  <div className="relative p-4 rounded-lg bg-white/50 dark:bg-black/50 border border-violet-500/20">
+                    <p className="text-violet-600 dark:text-violet-400 break-all font-mono text-sm pr-10">
                       {warpAdsUrl}
                     </p>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(warpAdsUrl);
+                        toast({
+                          title: "Copied to clipboard",
+                          description: "The WarpAds URL has been copied to your clipboard",
+                          duration: 3000,
+                        });
+                      }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-violet-100 dark:hover:bg-violet-900/50 rounded-lg transition-colors"
+                    >
+                      <Copy className="w-4 h-4 text-violet-600 dark:text-violet-400" />
+                    </button>
                   </div>
                 </motion.div>
               )}
