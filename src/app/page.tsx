@@ -8,7 +8,6 @@ import { useAccount } from "wagmi";
 import WarpAdsForm from "../components/WarpAdsForm";
 import BuyAd from "../components/BuyAd";
 import { ClaimRoyalties } from "../components/ClaimRoyalties";
-import { ModeToggle } from "../components/ui/mode-toggle";
 import { Tab } from "./types";
 import { TABS } from "./constants";
 import { motion, AnimatePresence } from 'framer-motion';
@@ -29,7 +28,7 @@ const MetricsDisplay = () => (
         { value: "1.2K", label: "Campaigns", change: "+15.7%" }
       ].map((metric, i) => (
         <div key={i} className="text-center">
-          <div className="font-mono text-2xl bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-indigo-500">
+          <div className="font-mono text-2xl bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-indigo-500">
             {metric.value}
           </div>
           <div className="text-sm text-zinc-500">{metric.label}</div>
@@ -92,7 +91,7 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-gradient-to-br from-violet-500/20 to-indigo-500/20 flex items-center justify-center">
+      <div className="fixed inset-0 bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 flex items-center justify-center">
         <motion.div
           animate={{
             scale: [1, 1.1, 1],
@@ -105,9 +104,9 @@ export default function Home() {
           }}
           className="relative"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full blur-xl opacity-50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-indigo-600 rounded-full blur-xl opacity-50" />
           <Image
-            src="/logo/logo.png"
+            src="https://warpads.xyz/android-chrome-512x512.png"
             alt="WarpAds Logo"
             width={80}
             height={80}
@@ -122,12 +121,9 @@ export default function Home() {
   if (!account?.address) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
-        {/* <div className="fixed top-6 right-6">
-          <ModeToggle />
-        </div> */} <Header walletConnected={false} setWalletConnected={() => { }} farcasterConnected={false} setFarcasterConnected={() => { }} />
+        <Header walletConnected={false} setWalletConnected={() => { }} farcasterConnected={false} setFarcasterConnected={() => { }} />
 
         <main>
-
           <Hero />
           <Features />
           <HowItWorks />
@@ -143,10 +139,6 @@ export default function Home() {
   if (!isAuthenticated || !fid) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
-        <div className="fixed top-6 right-6">
-          <ModeToggle />
-        </div>
-
         <div className="container max-w-7xl mx-auto min-h-screen flex flex-col items-center justify-center p-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -154,20 +146,20 @@ export default function Home() {
             className="relative overflow-hidden rounded-3xl bg-white dark:bg-zinc-900 shadow-2xl max-w-2xl w-full"
           >
             <div className="absolute inset-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 via-transparent to-indigo-500/20 opacity-50" />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-transparent to-indigo-500/20 opacity-50" />
               <div className="absolute inset-0 backdrop-blur-3xl" />
             </div>
 
             <div className="relative z-10 p-12">
               <div className="flex flex-col items-center text-center">
                 <Image
-                  src="/logo/logo.png"
+                  src="https://warpads.xyz/android-chrome-512x512.png"
                   alt="WarpAds Logo"
-                  width={80}
-                  height={80}
-                  className="mb-8"
+                  width={200}
+                  height={200}
+                  className="-mb-8"
                 />
-                <h2 className="text-3xl font-bold mb-4">WarpAds</h2>
+                <h2 className="text-3xl font-bold mb-4">WarpAds <span className="text-cyan-400 text-sm font-light">#Farcaster Edition</span></h2>
                 <p className="text-zinc-600 dark:text-zinc-400 mb-8">
                   Connect with Farcaster to unlock the full potential of WarpAds
                 </p>
@@ -193,15 +185,13 @@ export default function Home() {
         animate={{ y: 0 }}
         className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-zinc-900/80 border-b border-zinc-200 dark:border-zinc-800"
       >
-
-
         <Header walletConnected={false} setWalletConnected={() => { }} farcasterConnected={false} setFarcasterConnected={() => { }} />
       </motion.div>
 
       {/* Main Content */}
       <div className="container max-w-7xl mx-auto py-12 px-6">
         {/* Activity Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 border-b border-cyan-900 pb-4 px-5">
           {[
             { icon: Activity, label: "Campaign Performance", value: "+32.5%", desc: "Last 7 days" },
             { icon: TrendingUp, label: "Total Revenue", value: "$12.4K", desc: "This month" },
@@ -214,11 +204,11 @@ export default function Home() {
               transition={{ delay: i * 0.1 }}
               className="relative overflow-hidden rounded-2xl bg-white dark:bg-zinc-900 p-6 group hover:shadow-lg transition-shadow duration-200"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-indigo-500/5" />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-indigo-500/5" />
               <div className="relative z-10">
                 <div className="flex items-start justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-violet-500/10 dark:bg-violet-500/20">
-                    <stat.icon className="h-5 w-5 text-violet-500" />
+                  <div className="p-3 rounded-xl bg-cyan-500/10 dark:bg-cyan-500/20">
+                    <stat.icon className="h-5 w-5 text-cyan-500" />
                   </div>
                   <span className="text-xs text-zinc-500 dark:text-zinc-400">{stat.desc}</span>
                 </div>
@@ -226,7 +216,7 @@ export default function Home() {
                   <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
                     {stat.label}
                   </h3>
-                  <p className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+                  <p className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-indigo-600 bg-clip-text text-transparent">
                     {stat.value}
                   </p>
                 </div>
@@ -235,48 +225,50 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Tab Navigation */}
-        <nav className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {TABS.map((tab, index) => (
-            <motion.button
-              key={tab.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              onClick={() => setCurrentTab(tab.id as Tab)}
-              className={`relative overflow-hidden p-6 rounded-xl text-left group transition-all duration-200
+        <div className="flex justify-between items-start">
+          {/* Tab Navigation */}
+          <nav className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
+            {TABS.map((tab, index) => (
+              <motion.button
+                key={tab.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                onClick={() => setCurrentTab(tab.id as Tab)}
+                className={`relative overflow-hidden p-6 rounded-xl text-left group transition-all duration-200
                 ${currentTab === tab.id
-                  ? 'bg-gradient-to-br from-violet-500 to-indigo-600 text-white shadow-lg'
-                  : 'bg-white dark:bg-zinc-900 hover:shadow-lg'
-                }
+                    ? 'bg-gradient-to-br from-cyan-800 to-cyan-500 text-white shadow-lg'
+                    : 'bg-white dark:bg-zinc-900 hover:shadow-lg'
+                  }
               `}
-            >
-              <div className="absolute inset-0  bg-[size:20px_20px]" />
-              <div className="relative z-10">
-                <div className="text-xl font-bold mb-3">{tab.label}</div>
-                <div className={`text-sm mb-6 ${currentTab === tab.id
+              >
+                <div className="absolute inset-0  bg-[size:20px_20px]" />
+                <div className="relative z-10">
+                  <div className="text-xl font-bold mb-3">{tab.label}</div>
+                  <div className={`text-sm mb-6 ${currentTab === tab.id
                     ? 'text-white/80'
                     : 'text-zinc-600 dark:text-zinc-400'
-                  }`}>
-                  {tab.description}
-                </div>
-                <ArrowRight className={`w-5 h-5 transition-transform duration-200 ${currentTab === tab.id
+                    }`}>
+                    {tab.description}
+                  </div>
+                  <ArrowRight className={`w-5 h-5 transition-transform duration-200 ${currentTab === tab.id
                     ? 'translate-x-2 text-white'
-                    : 'group-hover:translate-x-2 text-violet-500'
-                  }`} />
-              </div>
-            </motion.button>
-          ))}
-        </nav>
+                    : 'group-hover:translate-x-2 text-cyan-500'
+                    }`} />
+                </div>
+              </motion.button>
+            ))}
+          </nav>
 
-        {/* Main Content Area */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="relative"
-        >
-          {renderTabContent()}
-        </motion.div>
+          {/* Main Content Area */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="relative ml-5"
+          >
+            {renderTabContent()}
+          </motion.div>
+        </div>
       </div>
     </div>
   );
