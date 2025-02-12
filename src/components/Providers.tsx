@@ -24,8 +24,8 @@ const config = getDefaultConfig({
 
 const farcasterConfig = {
   rpcUrl: "https://mainnet.optimism.io",
-  domain: "example.com",
-  siweUri: "https://example.com/login",
+  domain: "frames.warpads.xyz",
+  siweUri: "https://frames.warpads.xyz/login",
 };
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
