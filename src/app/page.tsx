@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { SignInButton, useProfile , useSignIn} from "@farcaster/auth-kit";
+import { SignInButton, useProfile, useSignIn } from "@farcaster/auth-kit";
 import { useAccount } from "wagmi";
 import WarpAdsForm from "../components/WarpAdsForm";
 import BuyAd from "../components/BuyAd";
@@ -44,7 +44,7 @@ export default function Home() {
   const [currentTab, setCurrentTab] = useState<Tab>("generate");
   const [isLoading, setIsLoading] = useState(true);
   const account = useAccount();
-  const { isAuthenticated, profile  } = useProfile();
+  const { isAuthenticated, profile } = useProfile();
   const { username, fid } = profile || {};
 
   useEffect(() => {
@@ -94,11 +94,11 @@ export default function Home() {
     return (
       <div className="fixed inset-0 bg-gradient-to-br from-violet-500/20 to-indigo-500/20 flex items-center justify-center">
         <motion.div
-          animate={{ 
+          animate={{
             scale: [1, 1.1, 1],
             rotate: [0, 180, 360],
           }}
-          transition={{ 
+          transition={{
             duration: 2,
             repeat: Infinity,
             ease: "easeInOut"
@@ -124,17 +124,17 @@ export default function Home() {
       <div className="min-h-screen bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
         {/* <div className="fixed top-6 right-6">
           <ModeToggle />
-        </div> */} <Header walletConnected={false} setWalletConnected={() => {}} farcasterConnected={false} setFarcasterConnected={() => {}} />
+        </div> */} <Header walletConnected={false} setWalletConnected={() => { }} farcasterConnected={false} setFarcasterConnected={() => { }} />
 
         <main>
-         
+
           <Hero />
           <Features />
           <HowItWorks />
           <CTA />
           <Footer />
         </main>
-     
+
       </div>
     );
   }
@@ -148,7 +148,7 @@ export default function Home() {
         </div>
 
         <div className="container max-w-7xl mx-auto min-h-screen flex flex-col items-center justify-center p-6">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="relative overflow-hidden rounded-3xl bg-white dark:bg-zinc-900 shadow-2xl max-w-2xl w-full"
@@ -157,7 +157,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 via-transparent to-indigo-500/20 opacity-50" />
               <div className="absolute inset-0 backdrop-blur-3xl" />
             </div>
-            
+
             <div className="relative z-10 p-12">
               <div className="flex flex-col items-center text-center">
                 <Image
@@ -188,14 +188,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
       {/* Sticky Header */}
-      <motion.div 
+      <motion.div
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-zinc-900/80 border-b border-zinc-200 dark:border-zinc-800"
       >
 
 
-     <Header walletConnected={false} setWalletConnected={() => {}} farcasterConnected={false} setFarcasterConnected={() => {}} />
+        <Header walletConnected={false} setWalletConnected={() => { }} farcasterConnected={false} setFarcasterConnected={() => { }} />
       </motion.div>
 
       {/* Main Content */}
@@ -243,10 +243,10 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              onClick={() => setCurrentTab(tab.id)}
+              onClick={() => setCurrentTab(tab.id as Tab)}
               className={`relative overflow-hidden p-6 rounded-xl text-left group transition-all duration-200
-                ${currentTab === tab.id 
-                  ? 'bg-gradient-to-br from-violet-500 to-indigo-600 text-white shadow-lg' 
+                ${currentTab === tab.id
+                  ? 'bg-gradient-to-br from-violet-500 to-indigo-600 text-white shadow-lg'
                   : 'bg-white dark:bg-zinc-900 hover:shadow-lg'
                 }
               `}
@@ -254,25 +254,23 @@ export default function Home() {
               <div className="absolute inset-0  bg-[size:20px_20px]" />
               <div className="relative z-10">
                 <div className="text-xl font-bold mb-3">{tab.label}</div>
-                <div className={`text-sm mb-6 ${
-                  currentTab === tab.id 
-                    ? 'text-white/80' 
+                <div className={`text-sm mb-6 ${currentTab === tab.id
+                    ? 'text-white/80'
                     : 'text-zinc-600 dark:text-zinc-400'
-                }`}>
+                  }`}>
                   {tab.description}
                 </div>
-                <ArrowRight className={`w-5 h-5 transition-transform duration-200 ${
-                  currentTab === tab.id 
-                    ? 'translate-x-2 text-white' 
+                <ArrowRight className={`w-5 h-5 transition-transform duration-200 ${currentTab === tab.id
+                    ? 'translate-x-2 text-white'
                     : 'group-hover:translate-x-2 text-violet-500'
-                }`} />
+                  }`} />
               </div>
             </motion.button>
           ))}
         </nav>
 
         {/* Main Content Area */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="relative"
