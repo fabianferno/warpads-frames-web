@@ -26,21 +26,21 @@ const WarpAdsForm = ({ fid }: { fid: number }) => {
   }, [url]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6">
+    <div className="w-full max-w-3xl mx-auto">
       <Card className="relative overflow-hidden backdrop-blur-xl bg-white/80 dark:bg-black/80">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-50/90 via-white/95 to-purple-50/90 dark:from-violet-950/90 dark:via-black/95 dark:to-purple-950/90" />
-        
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-50/90 via-white/95 to-purple-50/90 dark:from-cyan-950/90 dark:via-black/95 dark:to-purple-950/90" />
+
         {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-violet-200/30 dark:bg-violet-800/30 rounded-full blur-3xl -mr-48 -mt-48" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-200/30 dark:bg-cyan-800/30 rounded-full blur-3xl -mr-48 -mt-48" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-200/30 dark:bg-purple-800/30 rounded-full blur-3xl -ml-48 -mb-48" />
-        
+
         <div className="relative z-10">
           <CardHeader className="space-y-6 pb-8">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-violet-100 dark:bg-violet-900/50 rounded-xl">
-                <Sparkles className="w-6 h-6 text-violet-500 dark:text-violet-400" />
+              <div className="p-2 bg-cyan-100 dark:bg-cyan-900/50 rounded-xl">
+                <Sparkles className="w-6 h-6 text-cyan-500 dark:text-cyan-400" />
               </div>
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent">
                 Generate WarpAds URL
               </h2>
             </div>
@@ -52,18 +52,18 @@ const WarpAdsForm = ({ fid }: { fid: number }) => {
           <CardContent className="space-y-8">
             <div className="space-y-6">
               <div className="space-y-4">
-                <div className="flex items-center gap-2 text-lg font-semibold text-violet-700 dark:text-violet-300">
+                <div className="flex items-center gap-2 text-lg font-semibold text-cyan-700 dark:text-cyan-300">
                   <LinkIcon className="w-5 h-5" />
-                  <span>Target URL</span>
+                  <span>Frame URL</span>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Input
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
-                      className="h-12 text-lg border-2 border-violet-200 dark:border-violet-800 focus-visible:ring-violet-500 bg-white/50 dark:bg-black/50"
-                      placeholder="Enter your target URL"
+                      className="h-12 text-lg border-2 border-cyan-200 dark:border-cyan-800 focus-visible:ring-cyan-500 bg-white/50 dark:bg-black/50"
+                      placeholder="Enter your frame URL"
                     />
                   </div>
                 </div>
@@ -72,7 +72,7 @@ const WarpAdsForm = ({ fid }: { fid: number }) => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-6 rounded-xl bg-gradient-to-br from-violet-500/10 to-indigo-500/10 dark:from-violet-500/20 dark:to-indigo-500/20"
+                  className="p-6 rounded-xl bg-gradient-to-br from-cyan-500/10 to-indigo-500/10 dark:from-cyan-500/20 dark:to-indigo-500/20"
                 >
                   <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-2">
                     Hey @{username}
@@ -80,8 +80,8 @@ const WarpAdsForm = ({ fid }: { fid: number }) => {
                   <p className="text-zinc-600 dark:text-zinc-400 mb-3">
                     This is your WarpAds URL for the frame:
                   </p>
-                  <div className="relative p-4 rounded-lg bg-white/50 dark:bg-black/50 border border-violet-500/20">
-                    <p className="text-violet-600 dark:text-violet-400 break-all font-mono text-sm pr-10">
+                  <div className="relative p-4 rounded-lg bg-white/50 dark:bg-black/50 border border-cyan-500/20">
+                    <p className="text-cyan-600 dark:text-cyan-400 break-all font-mono text-sm pr-10">
                       {warpAdsUrl}
                     </p>
                     <button
@@ -93,9 +93,9 @@ const WarpAdsForm = ({ fid }: { fid: number }) => {
                           duration: 3000,
                         });
                       }}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-violet-100 dark:hover:bg-violet-900/50 rounded-lg transition-colors"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 rounded-lg transition-colors"
                     >
-                      <Copy className="w-4 h-4 text-violet-600 dark:text-violet-400" />
+                      <Copy className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
                     </button>
                   </div>
                 </motion.div>
@@ -103,12 +103,37 @@ const WarpAdsForm = ({ fid }: { fid: number }) => {
 
               <div className="pt-4">
                 <button className="group relative w-full">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-purple-600 rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-200" />
-                  <div className="relative w-full px-6 py-4 font-semibold text-white bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl hover:from-violet-600 hover:to-purple-700 transform transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 shadow-lg hover:shadow-violet-500/25 flex items-center justify-center gap-3">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-200" />
+                  <div className="relative w-full px-6 py-4 font-semibold text-white bg-gradient-to-r from-cyan-500 to-purple-600 rounded-xl hover:from-cyan-600 hover:to-purple-700 transform transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 shadow-lg hover:shadow-cyan-500/25 flex items-center justify-center gap-3">
                     <Sparkles className="w-5 h-5" />
                     Generate WarpAds URL
                   </div>
                 </button>
+              </div>
+            </div>
+
+            <div className="mt-2 pt-3 border-t border-cyan-200/20 dark:border-cyan-800/20">
+              <div className="grid grid-cols-2 gap-8">
+                <div>
+                  <p className="text-lg font-semibold text-cyan-700 dark:text-cyan-300 mb-2">
+                    What are WarpAds URLs?
+                  </p>
+                  <p className="text-sm text-cyan-700/80 dark:text-cyan-300/80 leading-relaxed">
+                    WarpAds URLs are special links that enable you to monetize your Farcaster frames. When you convert your regular frame URL into a WarpAds URL, it allows you to earn revenue through advertisements while maintaining the same user experience.
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-lg font-semibold text-cyan-700 dark:text-cyan-300 mb-2">
+                    How to use WarpAds URLs?
+                  </p>
+                  <ol className="text-sm text-cyan-700/80 dark:text-cyan-300/80 leading-relaxed list-decimal pl-4">
+                    <li>Enter your original frame URL in the input field</li>
+                    <li>Click &quot;Generate WarpAds URL&quot; to create your monetized link</li>
+                    <li>Copy the generated URL and use it in your Farcaster posts</li>
+                    <li>Start earning revenue when users interact with your frames</li>
+                  </ol>
+                </div>
               </div>
             </div>
           </CardContent>
