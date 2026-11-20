@@ -95,9 +95,8 @@ export default function BuyAd() {
     const url = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
     const headers = {
       "Content-Type": "application/json",
-      pinata_api_key: "REDACTED_PINATA",
-      pinata_secret_api_key:
-        "REDACTED_PINATA",
+      pinata_api_key: process.env.NEXT_PUBLIC_PINATA_API_KEY ?? "",
+      pinata_secret_api_key: process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY ?? "",
     };
     const response = await fetch(url, {
       method: "POST",
